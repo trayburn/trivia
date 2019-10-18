@@ -42,6 +42,8 @@ public class GameThread extends Thread {
 
                         if (question.isValidAnswer(i)) {
                             answers.put(player, i);
+                            nio.displayText("\r\nWaiting for all players to answer... \r\n" );
+
                         } else {
                             nio.displayText("Please choose A, B, C, or D...");
                         }
@@ -51,8 +53,7 @@ public class GameThread extends Thread {
             for (var player : context.getPlayerConnections().keySet()) {
                 var nio = context.getPlayerConnections().get(player);
                 if (question.isCorrectAnswer(answers.get(player))) {
-                    nio.displayText("Correct ");
-
+                    nio.displayText("You are Correct! ");
                     score.put(player, 3);
                 } else {
                     nio.displayText("Incorrect ");
