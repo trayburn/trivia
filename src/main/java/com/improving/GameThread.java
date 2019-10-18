@@ -51,13 +51,12 @@ public class GameThread extends Thread {
                 if (answers.containsValue("A")) {
                     nio.displayText("Correct ");
                     score.put(player, 3);
-                    nio.displayText("You got 3 points! ");
+                    nio.displayText("You got " + score.get(player).toString()+ " points! ");
                 } else {
                         nio.displayText("Incorrect ");
                         score.put(player, 0);
-                    }
+                        }
                 }
-
             }
         }
 
