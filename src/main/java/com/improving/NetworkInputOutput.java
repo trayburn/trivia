@@ -19,7 +19,22 @@ public class NetworkInputOutput implements InputOutput {
     }
 
     public String readInput() {
-        return scanner.nextLine();
+        var line = scanner.nextLine();
+        return processBackspace(line);
+    }
+
+    private String processBackspace(String input) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (c == '\b') {
+                if (sb.length() > 0) {
+                    sb.deleteCharAt(sb.length() - 1);
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 
     public boolean hasInput() { return scanner.hasNextLine(); }
