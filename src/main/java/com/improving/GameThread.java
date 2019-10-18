@@ -48,10 +48,16 @@ public class GameThread extends Thread {
                         nio.displayText("Please choose A, B, C, or D...");
                     }
                 }
-                if (answers.containsValue("A")){
-                    nio.displayText(" Correct ");
-                    score.put(player, )
+                if (answers.containsValue("A")) {
+                    nio.displayText("Correct ");
+                    score.put(player, 3);
+                    nio.displayText("You got 3 points! ");
+                } else {
+                        nio.displayText("Incorrect ");
+                        score.put(player, 0);
+                    }
                 }
+
             }
         }
 
@@ -59,4 +65,4 @@ public class GameThread extends Thread {
         // report
         // ... loop to next question
     }
-}
+
