@@ -32,10 +32,7 @@ public class Application {
             System.out.println("Running at " + serverIP + " port 1701...");
             while (true) {
                 var socket = server.accept();
-                var ipAddress = socket.getInetAddress().toString();
-                System.out.println("Connection received from " + ipAddress);
-                context.getPlayerConnections()
-                        .put(ipAddress, new NetworkInputOutput(socket));
+                new Thread(new NewPlayerRunnable(context, socket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
