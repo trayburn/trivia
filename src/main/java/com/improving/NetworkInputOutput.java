@@ -1,17 +1,19 @@
 package com.improving;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class NetworkInputOutput implements InputOutput {
     private final Socket socket;
-    private final Scanner scanner;
+    private final BufferedReader reader;
 
     public NetworkInputOutput(Socket socket) throws IOException {
         this.socket = socket;
-        this.scanner = new Scanner(socket.getInputStream());
+        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public String getName() {
@@ -19,7 +21,12 @@ public class NetworkInputOutput implements InputOutput {
     }
 
     public String readInput() {
-        var line = scanner.nextLine();
+        String line = null;
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return processBackspace(line);
     }
 
@@ -37,7 +44,14 @@ public class NetworkInputOutput implements InputOutput {
         return sb.toString();
     }
 
-    public boolean hasInput() { return scanner.hasNextLine(); }
+    public boolean hasInput() {
+        try {
+            return reader.ready();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public void displayText(String text) {
         try {

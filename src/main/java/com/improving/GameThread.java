@@ -2,6 +2,8 @@ package com.improving;
 
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.util.Date;
 import java.util.HashMap;
 
 @Component
@@ -20,6 +22,7 @@ public class GameThread extends Thread {
         var score = new HashMap<String, Integer>();
         var answers = new HashMap<String, String>();
         io.displayText("running the game thread...");
+
         while (context.getPlayerConnections().size() == 0) {
         }
 
@@ -29,7 +32,17 @@ public class GameThread extends Thread {
             var nio = context.getPlayerConnections().get(player);
             nio.displayText(question.toString());
         }
-        while (answers.size() < context.getPlayerConnections().size()) {
+
+        var timeout = new Timeout(30).start();
+        var lastTimeWarning = new Date();
+
+        while (timeout.isExpired() == false &&
+                answers.size() < context.getPlayerConnections().size()) {
+            boolean warnTime = false;
+            if (Duration.between(lastTimeWarning.toInstant(), new Date().toInstant()).toMillis() > 5000) {
+                warnTime = true;
+                lastTimeWarning = new Date();
+            }
             for (var player : context.getPlayerConnections().keySet()) {
                 var nio = context.getPlayerConnections().get(player);
                 if (nio.hasInput()) {
@@ -38,8 +51,11 @@ public class GameThread extends Thread {
                     if (question.isValidAnswer(i)) {
                         answers.put(player, i);
                     } else {
-                        nio.displayText("Please choose A, B, C, or D...");
+                        nio.displayText("Please choose a valid option.");
                     }
+                }
+                if (warnTime) {
+                    nio.displayText(timeout.toString());
                 }
             }
         }
