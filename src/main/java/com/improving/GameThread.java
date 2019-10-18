@@ -17,6 +17,7 @@ public class GameThread extends Thread {
     @Override
     public void run() {
         super.run();
+        var score = new HashMap<String, Integer>();
         var answers = new HashMap<String, String>();
         io.displayText("running the game thread...");
         while (context.getPlayerConnections().size() == 0) {
@@ -35,13 +36,27 @@ public class GameThread extends Thread {
                 if (nio.hasInput()) {
                     String i = nio.readInput();
 
-//                    if (i.isValid) {
-//                        answers.put(player, i);
-//                    } else {
-                    nio.displayText("Please choose A, B, C, or D...");
-//                    }
+                    if (i.equalsIgnoreCase("A")) {
+                        answers.put(player, i);
+                    } else if (i.equalsIgnoreCase("B")) {
+                        answers.put(player, i);
+                    } else if (i.equalsIgnoreCase("C")) {
+                        answers.put(player, i);
+                    } else if (i.equalsIgnoreCase("D")) {
+                        answers.put(player, i);
+                    } else {
+                        nio.displayText("Please choose A, B, C, or D...");
+                    }
+                }
+                if (answers.containsValue("A")){
+                    nio.displayText(" Correct ");
+                    score.put(player, )
                 }
             }
         }
+
+        // score
+        // report
+        // ... loop to next question
     }
 }
