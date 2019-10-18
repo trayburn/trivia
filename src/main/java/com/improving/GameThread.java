@@ -25,7 +25,7 @@ public class GameThread extends Thread {
         var score = new HashMap<String, Integer>();
         io.displayText("running the game thread...");
 
-        waitForPlayers(3);
+        waitForPlayers(2);
 
         for (int x = 0; x < context.getQuestions().size(); x++) {
             var answers = new HashMap<String, String>();
@@ -108,7 +108,7 @@ public class GameThread extends Thread {
 
                 score.put(player, score.get(player) + 3);
             } else {
-                nio.displayText("\r\nIncorrect ");
+                nio.displayText("\r\nIncorrect \r\n");
             }
         }
     }
