@@ -107,11 +107,11 @@ public class GameContext {
         ));
         list.add(new MultipleChoiceQuestion(
                 "Name of the famous detective who smoked a pipe & Played the violin",
-                "A",
+                "C",
                 Map.of(
-                        "A", "Sherlock Holmes",
+                        "A", "Inspector Gadget",
                         "B", "Philip Marlowe",
-                        "C","Inspector Gadget",
+                        "C","Sherlock Holmes",
                         "D", "Scooby Doo")
         ));
         list.add(new MultipleChoiceQuestion(
@@ -153,9 +153,9 @@ public class GameContext {
                 "How many squares are there on the chess board",
                 "B",
                 Map.of(
-                        "A", "35",
+                        "A", "36",
                         "B", "64",
-                        "C","50",
+                        "C","49",
                         "D", "25")
         ));
 
