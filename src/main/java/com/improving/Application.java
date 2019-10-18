@@ -2,7 +2,10 @@ package com.improving;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Application {
     private final GameContext context;
     private final GameThread thread;
@@ -13,10 +16,9 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        var context = new GameContext();
-        var gThread = new GameThread(context);
-        var g = new Application(context, gThread);
-        g.run();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringContext.class);
+        var game = context.getBean(Application.class);
+        game.run();
     }
 
     public void run() {

@@ -1,24 +1,28 @@
 package com.improving;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class GameThread extends Thread {
     private final GameContext context;
+    private final ConsoleInputOutput io;
 
-    public GameThread(GameContext context) {
-
+    public GameThread(GameContext context, ConsoleInputOutput io) {
         this.context = context;
+        this.io = io;
     }
 
     @Override
     public void run() {
         super.run();
-        System.out.println("running the game thread...");
+        io.displayText("running the game thread...");
         while(true) {
             try {
                 Thread.sleep(5000);
-                System.out.println("still running...(local)");
+                io.displayText("still running...(local)");
                 for (var player : context.getPlayerConnections().keySet()) {
-                    var io = context.getPlayerConnections().get(player);
-                    io.displayText("still running...(remote)");
+                    var nio = context.getPlayerConnections().get(player);
+                    nio.displayText("still running...(remote)");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

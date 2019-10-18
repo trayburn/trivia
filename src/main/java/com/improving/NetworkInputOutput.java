@@ -22,6 +22,8 @@ public class NetworkInputOutput implements InputOutput {
         return scanner.nextLine();
     }
 
+    public boolean hasInput() { return scanner.hasNextLine(); }
+
     public void displayText(String text) {
         try {
             socket.getOutputStream().write((text + "\r\n").getBytes());
