@@ -23,6 +23,7 @@ public class Application {
         game.run();
     }
 
+
     public void run() {
         thread.start();
 
