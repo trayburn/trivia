@@ -11,10 +11,12 @@ import org.springframework.stereotype.Component;
 public class Application {
     private final GameContext context;
     private final GameThread thread;
+    private final StatusRunnable status;
 
-    public Application(GameContext context, GameThread thread) {
+    public Application(GameContext context, GameThread thread, StatusRunnable status) {
         this.context = context;
         this.thread = thread;
+        this.status = status;
     }
 
     public static void main(String[] args) {
@@ -26,6 +28,7 @@ public class Application {
 
     public void run() {
         thread.start();
+        new Thread(status).start();
 
         try (var server = new ServerSocket(1701, 0, Inet4Address.getLocalHost())) {
             var serverIP = server.getInetAddress().getHostAddress();

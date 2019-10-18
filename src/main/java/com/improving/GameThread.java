@@ -22,13 +22,12 @@ public class GameThread extends Thread {
         io.displayText("running the game thread...");
         while (context.getPlayerConnections().size() == 0) {
         }
+
+        MultipleChoiceQuestion question = context.getQuestions().get(0);
+
         for (var player : context.getPlayerConnections().keySet()) {
             var nio = context.getPlayerConnections().get(player);
-            nio.displayText("Who wrote Julius Cesar?");
-            nio.displayText("A. Shakespear");
-            nio.displayText("B. Charles Dickens");
-            nio.displayText("C. William Woodsworth");
-            nio.displayText("D. J.K Rawling");
+            nio.displayText(question.toString());
         }
         while (answers.size() < context.getPlayerConnections().size()) {
             for (var player : context.getPlayerConnections().keySet()) {
@@ -36,33 +35,29 @@ public class GameThread extends Thread {
                 if (nio.hasInput()) {
                     String i = nio.readInput();
 
-                    if (i.equalsIgnoreCase("A")) {
-                        answers.put(player, i);
-                    } else if (i.equalsIgnoreCase("B")) {
-                        answers.put(player, i);
-                    } else if (i.equalsIgnoreCase("C")) {
-                        answers.put(player, i);
-                    } else if (i.equalsIgnoreCase("D")) {
+                    if (question.isValidAnswer(i)) {
                         answers.put(player, i);
                     } else {
                         nio.displayText("Please choose A, B, C, or D...");
                     }
                 }
-                if (answers.containsValue("A")) {
-                    nio.displayText("Correct ");
-                    score.put(player, 3);
-                    nio.displayText("You got 3 points! ");
-                } else {
-                        nio.displayText("Incorrect ");
-                        score.put(player, 0);
-                    }
-                }
-
             }
         }
-
-        // score
-        // report
-        // ... loop to next question
+        for (var player : context.getPlayerConnections().keySet()) {
+            var nio = context.getPlayerConnections().get(player);
+            if (question.isCorrectAnswer(answers.get(player))) {
+                nio.displayText("Correct ");
+                score.put(player, 3);
+            } else {
+                nio.displayText("Incorrect ");
+                score.put(player, 0);
+            }
+            nio.displayText("You have " + score.get(player).toString() + " points.");
+        }
     }
+
+    // score
+    // report
+    // ... loop to next question
+}
 
